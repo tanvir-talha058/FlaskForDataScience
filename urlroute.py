@@ -1,6 +1,6 @@
 ## flask app routing
 
-from flask import Flask, render_template,request
+from flask import Flask, render_template,request,redirect, url_for
 
 app=Flask(__name__)
 
@@ -30,6 +30,19 @@ def fail(score):
 def form():
     if request.method=="GET":
         return render_template("form.html")
+    else:
+        maths=float(request.form["marks1"])
+        science=float(request.form["marks2"])
+        english=float(request.form["marks3"])
+        average=(maths+science+english)/3
+        res=" "
+
+        if average>=50:
+            return success(average)
+        else:
+            res="failed"
+        
+        return redirect(url_for(res,score=average)) 
 
 if __name__=="__main__":
     app.run(debug=True)
