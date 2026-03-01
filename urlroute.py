@@ -1,6 +1,6 @@
 ## flask app routing
 
-from flask import Flask, render_template,request,redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 
 app=Flask(__name__)
 
@@ -40,9 +40,17 @@ def form():
         if average>=50:
             return success(average)
         else:
-            res="failed"
+            res="fail"
         
         return redirect(url_for(res,score=average)) 
+    
+@app.route('/api',methods=["POST"])
+
+def calculate_sum():
+    data=request.get_json()
+    a_value=dict(data)["a"]
+    b_value=dict(data)["b"]
+    return jsonify(a_value + b_value)
 
 if __name__=="__main__":
     app.run(debug=True)
